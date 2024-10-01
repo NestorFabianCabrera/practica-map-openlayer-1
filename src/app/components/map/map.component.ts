@@ -10,6 +10,7 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
+import Zoom from 'ol/control/Zoom';
 
 @Component({
   selector: 'app-map',
@@ -32,10 +33,13 @@ export class MapComponent implements OnInit {
   // Google las da en el formato [Latitud, Longitude] por eso debo invertir
   private coords = [-72.49857396820478, 7.897432514821199];
   // Puntos que voy a mostrar en el mapa
-  private points = [
-    { coords: [-72.49851467998661, 7.89754017896397], name: 'Gopenux Lab S.A.S' },
-    { coords: [-72.50179469393022, 7.881632887437397], name: 'Medellín' },
-    { coords: [-72.47875566741348, 7.922412075339184], name: 'Jardin Plaza'}
+  PARQUEADEROS:string = 'https://cdn-icons-png.flaticon.com/512/51/51778.png'
+  COLEGIOS:string = 'https://cdn-icons-png.flaticon.com/512/2830/2830316.png'
+  IGLESIAS:string = 'https://cdn-icons-png.flaticon.com/512/5438/5438502.png'
+  public points = [
+    { coords: [-72.49851467998661, 7.89754017896397], name: 'Gopenux Lab S.A.S', img: this.COLEGIOS },
+    { coords: [-72.50179469393022, 7.881632887437397], name: 'Medellín', img: this.PARQUEADEROS },
+    { coords: [-72.47875566741348, 7.922412075339184], name: 'Jardin Plaza', img: this.IGLESIAS }
   ];
 
   // Función para inicializar el mapa
@@ -45,21 +49,27 @@ export class MapComponent implements OnInit {
 
     // Creo una nueva instancia del mapa y la asigno a la variable map
     this.map = new Map({
-      target: 'map',  // El ID del div (del HTML) donde se mostrará el mapa
+      target: 'map',
       // Con esto defino las capas que voy a mostrar en el mapa
       layers: [
         new TileLayer({
           // La fuente de donde viene la información del mapa en este caso OSM (Open Street Maps)
-          source: new OSM()
+          source: new OSM({
+            attributions: []
+          })
         }),
         this.createPointLayer()
       ],
       // Con esto defino la vista inicial del mapa
       view: new View({
         center: this.coords,
-        zoom: 14
-      })
+        zoom: 13.4
+      }),
+      controls: [
+        new Zoom()  // Solo deja los botones de zoom
+      ]
     });
+
   }
 
 
@@ -79,8 +89,8 @@ export class MapComponent implements OnInit {
       // Puedo agregar un estilo opcional al punto, como un icono
       pointFeature.setStyle(new Style({
         image: new Icon({
-          src: 'https://static.vecteezy.com/system/resources/previews/022/168/544/original/red-pin-point-map-address-location-pointer-symbol-free-png.png',  // Puedes usar cualquier imagen para representar el marcador
-          scale: 0.015 // Escala de la imagen para ajustar el tamaño del icono
+          src: point.img,  // Puedes usar cualquier imagen para representar el marcador
+          scale: 0.058// Escala de la imagen para ajustar el tamaño del icono
         })
       }));
 

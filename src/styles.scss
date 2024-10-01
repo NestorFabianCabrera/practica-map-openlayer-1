@@ -1,4 +1,21 @@
 body {
   margin: 0;
   height: 100%;
+  background-color: #bbdff8;
+}
+
+.ol-zoom-in, .ol-zoom-out {
+  background-color: #007bff; /* Color de los botones de zoom */
+  border: 0.16rem solid black;
+  border-radius: 21%;
+  color: white;
+  font-size: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  margin: 0.5rem;
+}
+
+.ol-zoom-in:hover, .ol-zoom-out:hover {
+  background-color: #0056b3;
 }
